@@ -5,7 +5,14 @@ const listingRoutes = require("./routes/listingRoutes");
 
 const app = express();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://your-frontend-domain.vercel.app",
+    ],
+  })
+);
 
 app.use(express.json());
 

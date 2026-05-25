@@ -89,6 +89,36 @@ body {
 
   background-clip: text;
 }
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 12px;
+
+  padding: 40px 0;
+
+  color: var(--text-muted);
+}
+
+.loader {
+  width: 42px;
+  height: 42px;
+
+  border: 4px solid #eee;
+  border-top-color: #f59e0b;
+
+  border-radius: 50%;
+
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
 .nav-logo {
   font-family: "Playfair Display", serif;
   font-size: 18px;

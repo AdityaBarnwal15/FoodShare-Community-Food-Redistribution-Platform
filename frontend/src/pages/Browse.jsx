@@ -1,24 +1,17 @@
 import { useEffect, useState } from "react";
 
-import {
-  getListings,
-  claimListing,
-} from "../services/listingService";
+import { getListings, claimListing } from "../services/listingService";
 
 import ListingCard from "../components/listing/ListingCard";
 
 function Browse() {
-  const [filter, setFilter] =
-    useState("All");
+  const [filter, setFilter] = useState("All");
 
-  const [listings, setListings] =
-    useState([]);
+  const [listings, setListings] = useState([]);
 
-  const [loading, setLoading] =
-    useState(true);
+  const [loading, setLoading] = useState(true);
 
-  const [search, setSearch] =
-    useState("");
+  const [search, setSearch] = useState("");
 
   async function fetchListings() {
     try {
@@ -32,18 +25,15 @@ function Browse() {
     }
   }
 
-  async function handleClaim(
-    id,
-    userData
-  ) {
+  async function handleClaim(id, userData) {
     try {
-      await claimListing(
-        id,
-        userData
-      );
+      await claimListing(id, userData);
+
+      toast.success("Listing claimed successfully!");
 
       fetchListings();
     } catch (error) {
+      toast.error("Failed to claim listing");
       console.log(error);
     }
   }
@@ -52,48 +42,26 @@ function Browse() {
     fetchListings();
   }, []);
 
-  const dynamicTypes = [
-    ...new Set(
-      listings.map(
-        (listing) => listing.type
-      )
-    ),
-  ];
+  const dynamicTypes = [...new Set(listings.map((listing) => listing.type))];
 
-  const categories = [
-    "All",
-    ...dynamicTypes,
-  ];
+  const categories = ["All", ...dynamicTypes];
 
-  const filtered = listings.filter(
-    (listing) => {
-      const matchesCategory =
-        filter === "All" ||
-        listing.type === filter;
+  const filtered = listings.filter((listing) => {
+    const matchesCategory = filter === "All" || listing.type === filter;
 
-      const matchesSearch =
-        listing.title
-          .toLowerCase()
-          .includes(
-            search.toLowerCase()
-          ) ||
-        listing.description
-          .toLowerCase()
-          .includes(
-            search.toLowerCase()
-          );
+    const matchesSearch =
+      listing.title.toLowerCase().includes(search.toLowerCase()) ||
+      listing.description.toLowerCase().includes(search.toLowerCase());
 
-      return (
-        matchesCategory &&
-        matchesSearch
-      );
-    }
-  );
+    return matchesCategory && matchesSearch;
+  });
 
   if (loading) {
     return (
-      <div>
-        Loading listings...
+      <div className="loading-state">
+        <div className="loader"></div>
+
+        <div>Loading listings...</div>
       </div>
     );
   }
@@ -101,14 +69,9 @@ function Browse() {
   return (
     <>
       <div className="hero">
-        <div className="hero-label">
-          Kolkata • 5 km radius
-        </div>
+        <div className="hero-label">Kolkata • 5 km radius</div>
 
-        <div className="hero-title">
-          Food that shouldn't go
-          to waste
-        </div>
+        <div className="hero-title">Food that shouldn't go to waste</div>
       </div>
 
       <div
@@ -122,53 +85,34 @@ function Browse() {
           placeholder="Search food..."
           className="form-input"
           value={search}
-          onChange={(e) =>
-            setSearch(
-              e.target.value
-            )
-          }
+          onChange={(e) => setSearch(e.target.value)}
         />
       </div>
 
       <div className="chips">
-        {categories.map(
-          (category) => (
-            <button
-              key={category}
-              className={`chip ${
-                filter === category
-                  ? "active"
-                  : ""
-              }`}
-              onClick={() =>
-                setFilter(category)
-              }
-            >
-              {category}
-            </button>
-          )
-        )}
+        {categories.map((category) => (
+          <button
+            key={category}
+            className={`chip ${filter === category ? "active" : ""}`}
+            onClick={() => setFilter(category)}
+          >
+            {category}
+          </button>
+        ))}
       </div>
 
       {filtered.length === 0 ? (
         <div className="empty">
-          <div className="empty-emoji">
-            🔍
-          </div>
+          <div className="empty-emoji">🔍</div>
 
-          <div className="empty-sub">
-            No matching listings
-            found.
-          </div>
+          <div className="empty-sub">No matching listings found.</div>
         </div>
       ) : (
         filtered.map((listing) => (
           <ListingCard
             key={listing._id}
             listing={listing}
-            onClaim={
-              handleClaim
-            }
+            onClaim={handleClaim}
           />
         ))
       )}

@@ -8,8 +8,20 @@ function Nav() {
       </div>
 
       <div className="nav-actions">
-        <button className="icon-btn notif-dot">🔔</button>
-        <button className="icon-btn">🔍</button>
+        <button
+          className="icon-btn"
+          onClick={() => toast("No notifications yet")}
+        >
+          🔔
+        </button>
+        <button
+          className="icon-btn"
+          onClick={() => {
+            document.querySelector(".form-input")?.focus();
+          }}
+        >
+          🔍
+        </button>
       </div>
     </nav>
   );

@@ -4,6 +4,8 @@ import { FOOD_TYPES } from "../../data/mockListings";
 
 import { createListing } from "../../services/listingService";
 
+import { toast } from "react-hot-toast";
+
 function PostForm() {
   const [title, setTitle] = useState("");
 
@@ -48,13 +50,14 @@ function PostForm() {
         },
       });
 
-      alert("Listing created!");
+      toast.success("Listing created successfully");
 
       setTitle("");
       setDescription("");
       setQuantity("");
       setLocation("");
     } catch (error) {
+      toast.error("Something went wrong");
       console.log(error);
     } finally {
       setLoading(false);

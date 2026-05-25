@@ -11,17 +11,24 @@ app.use(
       "http://localhost:5173",
       "https://food-share-community-food-redistrib.vercel.app/",
     ],
+    methods: [
+      "GET",
+      "POST",
+      "PATCH",
+      "DELETE",
+    ],
+    credentials: true,
   })
 );
 
 app.use(express.json());
 
-app.use("/api/listings", listingRoutes);
-
 app.get("/", (req, res) => {
   res.json({
-    message: "FoodShare API running",
+    message: "FoodShare API Running",
   });
 });
+
+app.use("/api/listings", listingRoutes);
 
 module.exports = app;

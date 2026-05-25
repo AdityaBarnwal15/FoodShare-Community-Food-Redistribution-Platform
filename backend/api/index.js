@@ -2,6 +2,8 @@ const app = require("../src/app");
 
 const connectDB = require("../src/config/db");
 
-connectDB();
+module.exports = async (req, res) => {
+  await connectDB();
 
-module.exports = app;
+  return app(req, res);
+};

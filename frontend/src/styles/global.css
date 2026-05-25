@@ -119,6 +119,27 @@ body {
     transform: rotate(360deg);
   }
 }
+.listing-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.listing-wrapper {
+  animation: fadeUp 0.3s ease;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 .nav-logo {
   font-family: "Playfair Display", serif;
   font-size: 18px;
@@ -760,4 +781,69 @@ textarea.form-input {
 /* COUNTDOWN */
 .countdown {
   font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 32px;
+    line-height: 1.2;
+  }
+
+  .hero-label {
+    font-size: 12px;
+  }
+
+  .chips {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+
+    padding-bottom: 6px;
+
+    scrollbar-width: none;
+  }
+
+  .chips::-webkit-scrollbar {
+    display: none;
+  }
+
+  .chip {
+    white-space: nowrap;
+  }
+
+  .form-input {
+    font-size: 14px;
+  }
+
+  .listing-grid {
+    gap: 14px;
+  }
+
+  .listing-card {
+    padding: 16px;
+  }
+}
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 26px;
+  }
+
+  .hero {
+    padding: 18px;
+  }
+
+  .listing-card {
+    border-radius: 18px;
+  }
+
+  .section-title {
+    font-size: 18px;
+  }
+
+  .logo {
+    font-size: 20px;
+  }
+
+  .logo-icon {
+    font-size: 24px;
+  }
 }

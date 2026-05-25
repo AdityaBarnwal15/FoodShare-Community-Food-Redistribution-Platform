@@ -1,8 +1,10 @@
 function Nav() {
   return (
     <nav className="nav">
-      <div className="nav-logo">
-        food<span>share</span>
+      <div className="logo">
+        <span className="logo-icon">🍱</span>
+
+        <span className="logo-text">FoodShare</span>
       </div>
 
       <div className="nav-actions">

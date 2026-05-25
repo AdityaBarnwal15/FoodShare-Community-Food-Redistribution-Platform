@@ -1,15 +1,24 @@
 import { useEffect, useState } from "react";
-import { getListings, claimListing } from "../services/listingService";
+
+import {
+  getListings,
+  claimListing,
+} from "../services/listingService";
+
 import ListingCard from "../components/listing/ListingCard";
 
-import { FOOD_TYPES } from "../data/mockListings";
-
 function Browse() {
-  const [filter, setFilter] = useState("All");
+  const [filter, setFilter] =
+    useState("All");
 
-  const [listings, setListings] = useState([]);
+  const [listings, setListings] =
+    useState([]);
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] =
+    useState(true);
+
+  const [search, setSearch] =
+    useState("");
 
   async function fetchListings() {
     try {
@@ -23,13 +32,15 @@ function Browse() {
     }
   }
 
-  async function handleClaim(id) {
+  async function handleClaim(
+    id,
+    userData
+  ) {
     try {
-      await claimListing(id, {
-        name: "Aditya",
-        phone: "9876543210",
-        message: "Hi, I can pick this up within 20 minutes.",
-      });
+      await claimListing(
+        id,
+        userData
+      );
 
       fetchListings();
     } catch (error) {
@@ -41,43 +52,126 @@ function Browse() {
     fetchListings();
   }, []);
 
-  const categories = ["All", ...FOOD_TYPES.map((f) => f.label)];
+  const dynamicTypes = [
+    ...new Set(
+      listings.map(
+        (listing) => listing.type
+      )
+    ),
+  ];
+
+  const categories = [
+    "All",
+    ...dynamicTypes,
+  ];
 
   const filtered = listings.filter(
-    (listing) => filter === "All" || listing.type === filter,
+    (listing) => {
+      const matchesCategory =
+        filter === "All" ||
+        listing.type === filter;
+
+      const matchesSearch =
+        listing.title
+          .toLowerCase()
+          .includes(
+            search.toLowerCase()
+          ) ||
+        listing.description
+          .toLowerCase()
+          .includes(
+            search.toLowerCase()
+          );
+
+      return (
+        matchesCategory &&
+        matchesSearch
+      );
+    }
   );
 
   if (loading) {
-    return <div>Loading listings...</div>;
+    return (
+      <div>
+        Loading listings...
+      </div>
+    );
   }
 
   return (
     <>
       <div className="hero">
-        <div className="hero-label">Kolkata • 5 km radius</div>
+        <div className="hero-label">
+          Kolkata • 5 km radius
+        </div>
 
-        <div className="hero-title">Food that shouldn't go to waste</div>
+        <div className="hero-title">
+          Food that shouldn't go
+          to waste
+        </div>
+      </div>
+
+      <div
+        className="search-box"
+        style={{
+          marginBottom: 16,
+        }}
+      >
+        <input
+          type="text"
+          placeholder="Search food..."
+          className="form-input"
+          value={search}
+          onChange={(e) =>
+            setSearch(
+              e.target.value
+            )
+          }
+        />
       </div>
 
       <div className="chips">
-        {categories.map((category) => (
-          <button
-            key={category}
-            className={`chip ${filter === category ? "active" : ""}`}
-            onClick={() => setFilter(category)}
-          >
-            {category}
-          </button>
-        ))}
+        {categories.map(
+          (category) => (
+            <button
+              key={category}
+              className={`chip ${
+                filter === category
+                  ? "active"
+                  : ""
+              }`}
+              onClick={() =>
+                setFilter(category)
+              }
+            >
+              {category}
+            </button>
+          )
+        )}
       </div>
 
-      {filtered.map((listing) => (
-        <ListingCard
-          key={listing._id}
-          listing={listing}
-          onClaim={handleClaim}
-        />
-      ))}
+      {filtered.length === 0 ? (
+        <div className="empty">
+          <div className="empty-emoji">
+            🔍
+          </div>
+
+          <div className="empty-sub">
+            No matching listings
+            found.
+          </div>
+        </div>
+      ) : (
+        filtered.map((listing) => (
+          <ListingCard
+            key={listing._id}
+            listing={listing}
+            onClaim={
+              handleClaim
+            }
+          />
+        ))
+      )}
     </>
   );
 }

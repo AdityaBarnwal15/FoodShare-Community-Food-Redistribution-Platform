@@ -54,6 +54,41 @@ body {
   top: 0;
   z-index: 100;
 }
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  font-family:
+    "Playfair Display",
+    serif;
+
+  font-size: 24px;
+  font-weight: 700;
+
+  color: var(--text-main);
+}
+
+.logo-icon {
+  font-size: 28px;
+  display: flex;
+  align-items: center;
+}
+
+.logo-text {
+  background: linear-gradient(
+    135deg,
+    #d97706,
+    #f59e0b
+  );
+
+  -webkit-background-clip: text;
+
+  -webkit-text-fill-color:
+    transparent;
+
+  background-clip: text;
+}
 .nav-logo {
   font-family: "Playfair Display", serif;
   font-size: 18px;

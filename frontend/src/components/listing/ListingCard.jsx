@@ -1,7 +1,11 @@
+import { useState } from "react";
 import { timeLeft, isUrgent } from "../../utils/time";
+import { toggleSaved, isSaved } from "../../utils/savedListings";
 
 function ListingCard({ listing, onClaim }) {
   const urgent = isUrgent(listing.expiresAt);
+
+  const [saved, setSaved] = useState(isSaved(listing._id));
 
   return (
     <div
@@ -35,6 +39,18 @@ function ListingCard({ listing, onClaim }) {
                 ? "Expiring soon"
                 : "Available"}
           </span>
+          <button
+            className="save-btn"
+            onClick={(e) => {
+              e.stopPropagation();
+
+              toggleSaved(listing._id);
+
+              setSaved(!saved);
+            }}
+          >
+            {saved ? "❤️" : "🤍"}
+          </button>
         </div>
 
         <div className="card-title">{listing.title}</div>

@@ -8,6 +8,8 @@ import Profile from "./pages/Profile";
 import Nav from "./components/layout/Nav";
 import BottomTab from "./components/layout/BottomTab";
 
+import { Saved } from "./pages/Saved";
+
 import "./styles/global.css";
 
 function App() {
@@ -22,6 +24,7 @@ function App() {
             <Route path="/post" element={<Post />} />
             <Route path="/mine" element={<MyListings />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/saved" element={<Saved />} />
           </Routes>
         </div>
 

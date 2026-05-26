@@ -6,11 +6,13 @@ const {
   claimListing,
 } = require("../controllers/listingController");
 
+const upload = require("../middleware/upload");
+
 const router = express.Router();
 
 router.get("/", getListings);
 
-router.post("/", createListing);
+router.post("/", upload.single("image"), createListing);
 
 router.patch("/:id/claim", claimListing);
 

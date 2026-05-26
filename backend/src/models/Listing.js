@@ -48,6 +48,11 @@ const listingSchema = new mongoose.Schema(
       default: "active",
     },
 
+    image: {
+      type: String,
+      required: true,
+    },
+
     poster: {
       name: String,
       initials: String,

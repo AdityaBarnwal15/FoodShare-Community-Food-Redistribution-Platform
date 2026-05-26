@@ -4,6 +4,8 @@ import { getListings, claimListing } from "../services/listingService";
 
 import ListingCard from "../components/listing/ListingCard";
 
+import ListingModal from "../components/listing/ListingModal";
+
 function Browse() {
   const [filter, setFilter] = useState("All");
 
@@ -12,6 +14,8 @@ function Browse() {
   const [loading, setLoading] = useState(true);
 
   const [search, setSearch] = useState("");
+
+  const [selectedListing, setSelectedListing] = useState(null);
 
   async function fetchListings() {
     try {
@@ -114,11 +118,19 @@ function Browse() {
         <div className="listing-grid">
           {filtered.map((listing) => (
             <div key={listing._id} className="listing-wrapper">
-              <ListingCard listing={listing} onClaim={handleClaim} />
+              <div onClick={() => setSelectedListing(listing)}>
+                <ListingCard listing={listing} onClaim={handleClaim} />
+              </div>
             </div>
           ))}
         </div>
       )}
+
+      <ListingModal
+        listing={selectedListing}
+        onClose={() => setSelectedListing(null)}
+        onClaim={handleClaim}
+      />
     </>
   );
 }

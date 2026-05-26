@@ -9,6 +9,13 @@ function ListingCard({ listing, onClaim }) {
         listing.status === "claimed" ? "claimed" : ""
       }`}
     >
+      {listing.image && (
+        <img
+          src={listing.image}
+          alt={listing.title}
+          className="listing-image"
+        />
+      )}
       <div className="card-body">
         <div className="card-top">
           <span className="card-emoji">{listing.emoji}</span>

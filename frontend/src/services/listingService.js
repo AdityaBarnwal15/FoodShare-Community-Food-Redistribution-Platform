@@ -6,11 +6,20 @@ export async function getListings() {
   return response.data;
 }
 
-export async function createListing(data) {
-  const response = await API.post(
-    "/listings",
-    data
-  );
+export async function createListing(
+  data
+) {
+  const response =
+    await API.post(
+      "/listings",
+      data,
+      {
+        headers: {
+          "Content-Type":
+            "multipart/form-data",
+        },
+      }
+    );
 
   return response.data;
 }

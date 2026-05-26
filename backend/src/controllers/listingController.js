@@ -16,7 +16,11 @@ async function getListings(req, res) {
 
 async function createListing(req, res) {
   try {
-    const listing = await Listing.create(req.body);
+    const listing = await Listing.create({
+      title,
+      description,
+      image: req.file?.path || "",
+    });
 
     res.status(201).json(listing);
   } catch (error) {
@@ -28,9 +32,7 @@ async function createListing(req, res) {
 
 async function claimListing(req, res) {
   try {
-    const listing = await Listing.findById(
-      req.params.id
-    );
+    const listing = await Listing.findById(req.params.id);
 
     if (!listing) {
       return res.status(404).json({
